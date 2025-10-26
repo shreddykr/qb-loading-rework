@@ -15,7 +15,7 @@ If you’d rather change it, jump into:
 - Images → `qb-loading-assets-images`
 - Audio  → `qb-loading-assets-audio`
 
-🎥 [**Preview**](https://streamable.com/9ogdhm)
+🎥 [**Preview**](https://streamable.com/ml30ji)
 
 [DOWNLOAD THE IMAGES HERE](https://drive.google.com/drive/folders/1ETv9TUGdR4P0z1YX7ONPyK5ZOgajV_ki?usp=sharing)
 
