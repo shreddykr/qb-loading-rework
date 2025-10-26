@@ -1,0 +1,185 @@
+/* === GLOBAL VARIABLES === */
+:root {
+  --hw-blue: #00b4d8;
+  --hw-panel: #1e1e2d;
+  --hw-text: #fff;
+}
+
+/* === PAGE & ROOT === */
+html, body {
+  background: #000 !important;
+  overflow: hidden !important;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+#loading-main {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.q-page-container,
+.q-layout,
+.q-body--prevent-scroll { overflow: hidden !important; }
+
+/* === FULLSCREEN BACKGROUND CAROUSEL === */
+.q-carousel { width:100vw !important; height:100vh !important; background:#000 !important; }
+.q-carousel__slides { width:100vw !important; height:100vh !important; overflow:hidden !important; }
+
+.q-carousel__slide {
+  width:100vw !important; height:100vh !important;
+  overflow:hidden !important; margin:0 !important; padding:0 !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.q-carousel__slide img {
+  object-fit: cover !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* === GTA STYLE "WIND DRIFT" CAMERA WOBBLE (soft + natural) === */
+.gta-wobble .q-carousel__slides {
+  perspective: 1400px !important;
+  overflow: hidden !important;
+}
+
+.gta-wobble .q-carousel__slide {
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  animation: wobbleSoft 10s ease-in-out infinite;
+}
+
+/* One or two smooth rotations like drifting wind */
+@keyframes wobbleSoft {
+  0%   { transform: scale(1.08) rotateX(13deg) rotateZ(0deg) translate3d(0,0,0); }
+  25%  { transform: scale(1.085) rotateX(13.2deg) rotateZ(0.8deg) translate3d(2px,-2px,0); }
+  50%  { transform: scale(1.09)  rotateX(13.4deg) rotateZ(-0.8deg) translate3d(-3px,2px,0); }
+  75%  { transform: scale(1.085) rotateX(13.1deg) rotateZ(0.5deg) translate3d(1px,-1px,0); }
+  100% { transform: scale(1.08)  rotateX(13deg)  rotateZ(0deg)   translate3d(0,0,0); }
+}
+
+/* === LOADING BAR === */
+.loadingbar { width:27%; padding:20px 25px 20px 0; }
+.loadbar {
+  height:1.5vh; background:rgba(255,255,255,.08);
+  border-radius:2px; box-shadow:0 1px 5px #0003;
+}
+.thingy {
+  height:1.5vh; background:var(--hw-blue);
+  box-shadow:0 0 10px rgba(0,180,216,.6);
+  transition: width .3s ease-out;
+}
+
+/* === DIALOGS / PANELS === */
+.q-dialog .q-card {
+  background-color: var(--hw-panel) !important;
+  color: var(--hw-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+.text-detailbutton { color: rgb(103,108,111) !important; }
+.bg-bgbutton      { background: rgb(103,108,111) !important; }
+
+/* === SETTINGS MENU (custom toggles) === */
+.settings-list { display:flex; flex-direction:column; gap:14px; }
+.setting-row {
+  display:grid; grid-template-columns:48px 1fr; align-items:center;
+  gap:12px; padding:10px 6px; border-radius:10px;
+  background:rgba(255,255,255,0.04);
+}
+.setting-text { display:flex; flex-direction:column; line-height:1.2; }
+.setting-title { font-weight:700; color:var(--hw-text); }
+.setting-sub   { opacity:.85; color:var(--hw-text); font-size:13px; }
+
+/* Switches */
+.hw-switch {
+  position:relative; width:44px; height:24px; border-radius:999px;
+  background:rgba(255,255,255,0.18);
+  border:1px solid rgba(255,255,255,0.12);
+  cursor:pointer; transition: all .2s ease;
+}
+.hw-switch .knob {
+  position:absolute; top:50%; left:2px; width:20px; height:20px; border-radius:50%;
+  background:#fff; transform:translate(0,-50%);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.hw-switch.on {
+  background:var(--hw-blue);
+  box-shadow:0 0 8px rgba(0,180,216,.55);
+  border-color:rgba(0,180,216,.6);
+}
+.hw-switch.on .knob { transform:translate(20px,-50%); box-shadow:0 0 10px rgba(0,180,216,.5); }
+
+/* === UI LAYERS / Z-INDEX === */
+.absolute-top, .absolute-bottom { z-index: 10 !important; }
+.q-dialog__backdrop { z-index: 6000 !important; }
+.q-dialog__inner    { z-index: 7000 !important; }
+.q-card, .q-btn { z-index: auto !important; }
+
+/* === HARD KILL ANY SCROLLBARS === */
+html, body, #loading-main,
+.q-layout, .q-page-container, .q-body--prevent-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+  width: 100vw !important;
+}
+*::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+* { scrollbar-width: none; }
+
+#loading-main { position: fixed !important; inset: 0 !important; }
+
+/* === TOP-LEFT TEXT === */
+.absolute-top .q-carousel__slides { padding: 0 !important; }
+.absolute-top .q-carousel__slide {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+.absolute-top { left: 0 !important; top: 0 !important; }
+.absolute-top .q-card { background: transparent !important; box-shadow: none !important; }
+.absolute-top .q-card-section { padding: 0 !important; }
+.absolute-top .q-carousel { margin-top: 2vh !important; margin-left: 2vw !important; }
+.absolute-top .q-carousel__slide > * {
+  max-width: 30vw !important;
+  width: 30vw !important;
+  pointer-events: auto;
+  overflow: visible !important;
+}
+
+/* === KEEP BACKGROUND FULLSCREEN === */
+.q-carousel,
+.q-carousel__slides,
+.q-carousel__slide {
+  height: 100vh !important;
+  width: 100vw !important;
+  overflow: hidden !important;
+}
+
+.q-carousel__slide img {
+  object-fit: cover !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: block;
+  background: transparent;
+}
+
+.q-dialog__inner.q-dialog__inner--right {
+  top: auto !important;
+  bottom: 31vh !important;        /* same vertical distance as Download box */
+  margin-right: 3.4vw !important; /* keep same side spacing */
+  transform: none !important;     /* prevent default center translate */
+}

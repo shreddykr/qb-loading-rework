@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.prod.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.umd.prod.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+
+  <audio autoplay loop id="audio" src="/assets/audio/noncopyright.mp3"></audio>
+
+  <body>
+    <div id="loading-main">
+
+      <!-- FULLSCREEN BACKGROUND (1–8.png) -->
+      <q-carousel
+        class="gta-wobble bg-fit"
+        animated
+        v-model="firstslide"
+        :autoplay="firstap"
+        infinite
+        transition-next="fade"
+        transition-prev="fade"
+        height="100vh"
+      >
+        <q-carousel-slide
+          v-for="n in 8"
+          :key="n"
+          :name="n"
+          :img-src="`/assets/images/${n}.png`"
+        />
+      </q-carousel>
+
+      <!-- TEXT CAROUSEL (TOP-LEFT) -->
+      <div class="absolute-top q-pa-xl">
+        <q-card flat style="width: auto; background: transparent;">
+          <q-card-section class="row items-center no-wrap">
+            <q-carousel
+              animated
+              infinite
+              :autoplay="secondap"
+              v-model="secondslide"
+              transition-next="fade"
+              transition-prev="fade"
+              class="bg-transparent text-white"
+            >
+              <q-carousel-slide name="1" class="column no-wrap flex-center">
+                <div class="text-left text-h6" style="width: 30vw;">{{ CarouselText1 }}</div>
+                <div class="text-left text-body1" style="opacity: 0.9; width: 30vw;">{{ CarouselSubText1 }}</div>
+              </q-carousel-slide>
+
+              <q-carousel-slide name="2" class="column no-wrap flex-center">
+                <div class="text-left text-h6" style="width: 30vw;">{{ CarouselText2 }}</div>
+                <div class="text-left text-body1" style="opacity: 0.9; width: 30vw;">{{ CarouselSubText2 }}</div>
+              </q-carousel-slide>
+
+              <q-carousel-slide name="3" class="column no-wrap flex-center">
+                <div class="text-left text-h6" style="width: 30vw;">{{ CarouselText3 }}</div>
+                <div class="text-left text-body1" style="opacity: 0.9; width: 30vw;">{{ CarouselSubText3 }}</div>
+              </q-carousel-slide>
+
+              <q-carousel-slide name="4" class="column no-wrap flex-center">
+                <div class="text-left text-h6" style="width: 30vw;">{{ CarouselText4 }}</div>
+                <div class="text-left text-body1" style="opacity: 0.9; width: 30vw;">{{ CarouselSubText4 }}</div>
+              </q-carousel-slide>
+            </q-carousel>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- BOTTOM BAR -->
+      <div class="absolute-bottom q-pa-xl">
+        <q-card flat style="width: auto; background: transparent;">
+          <q-card-section class="row items-center no-wrap">
+            <q-space></q-space>
+            <q-btn :ripple="false" flat size="xl" icon="downloading" color="white" @click="download = true"></q-btn>
+            <div class="loadingbar">
+              <div class="loadbar"><div class="thingy"></div></div>
+            </div>
+            <q-btn icon="settings_suggest" color="bgbutton" @click="settings = true"></q-btn>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- DOWNLOAD DIALOG -->
+      <q-dialog no-shake v-model="download" position="bottom">
+        <q-card style="max-width: 400px; margin-left: 50vw; margin-bottom: 13vh;">
+          <q-card-section>
+            <div class="text-h6">{{ DownloadTitle }}</div>
+          </q-card-section>
+          <q-card-section class="text-weight-bold q-pt-none">{{ DownloadDesc }}</q-card-section>
+          <q-card-actions align="left">
+            <q-btn flat label="Hide details" color="detailbutton" v-close-popup></q-btn>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <!-- SETTINGS DIALOG -->
+      <q-dialog no-shake v-model="settings" position="right">
+        <q-card style="max-width: 300px; margin-right: 3.4vw; top: 20vh!important;">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">{{ SettingsTitle }}</div>
+            <q-space></q-space>
+            <q-btn icon="close" flat round dense v-close-popup></q-btn>
+          </q-card-section>
+
+          <q-card-section style="padding-top: 0px;">
+            <div class="settings-list">
+              <!-- AUDIO -->
+              <div class="setting-row">
+                <button class="hw-switch" :class="{ on: audioplay }" @click="toggleAudio" type="button" role="switch">
+                  <span class="knob"></span>
+                </button>
+                <div class="setting-text">
+                  <div class="setting-title">Audio</div>
+                  <div class="setting-sub">Play background track</div>
+                </div>
+              </div>
+
+              <!-- AUTO-PLAY -->
+              <div class="setting-row">
+                <button class="hw-switch" :class="{ on: autoplayEnabled }" @click="toggleAutoplay" type="button" role="switch">
+                  <span class="knob"></span>
+                </button>
+                <div class="setting-text">
+                  <div class="setting-title">Auto-Play</div>
+                  <div class="setting-sub">Cycle slides automatically</div>
+                </div>
+              </div>
+
+              <!-- VIDEO -->
+              <div class="setting-row">
+                <button class="hw-switch" :class="{ on: playvideo }" @click="toggleVideo" type="button" role="switch">
+                  <span class="knob"></span>
+                </button>
+                <div class="setting-text">
+                  <div class="setting-title">Video</div>
+                  <div class="setting-sub">Play background video (if enabled)</div>
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
+  </body>
+</html>
